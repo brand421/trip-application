@@ -11,3 +11,19 @@
 .card__img {
     width: 325px;
 }
+
+.desc__expand {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: underline;
+    text-align: center;
+    font-weight: bold;
+    color: blue;
+}
+
+.expand {
+    cursor: pointer;
+    width: auto;
+    margin-top: 0;
+}
