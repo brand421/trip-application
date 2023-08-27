@@ -10,20 +10,20 @@ export type Results = {
 }[];
 
 function Landing() {
-  const [search, setSearch] = useState("");
+  // const [search, setSearch] = useState("");
 
-  const [card, setCard] = useState<Results | undefined>(undefined);
+  // const [card, setCard] = useState<Results | undefined>(undefined);
 
-  const fetchData = async (input: string) => {
-    await fetch(`http://localhost:5000/${input}`).then(async (res) => {
-      const response: Results = await res.json();
-      setCard(response);
-    });
-  };
+  // const fetchData = async (input: string) => {
+  //   await fetch(`http://localhost:5000/${input}`).then(async (res) => {
+  //     const response: Results = await res.json();
+  //     setCard(response);
+  //   });
+  // };
 
-  useEffect(() => {
-    fetchData(search);
-  }, [search]);
+  // useEffect(() => {
+  //   fetchData(search);
+  // }, [search]);
   return (
     <div className="landing__container">
       <h1>Where do you want to go?</h1>
