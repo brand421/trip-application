@@ -1,6 +1,15 @@
 input {
     border-radius: 5%;
     box-shadow: 0px 0px 15px blue;
+    width: 200px;
+}
+
+.logo {
+    height: 20px;
+}
+
+.header {
+    margin-bottom: 0;
 }
 
 .landing__container {
@@ -8,17 +17,19 @@ input {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin-top: 15%;
+    margin-top: 8%;
 }
 
 .landing__form {
     display: flex;
     flex-direction: row;
+    margin-top: 6%;
 }
 
 .landing__input {
     border-radius: 35px;
     margin-right: 2.5%;
+    width: 100%;
 }
 
 .landing__submit {

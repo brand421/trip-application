@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import Card from "./components/Card/Card";
+// import Card from "./components/Card/Card";
 import Landing from "./components/Landing/Landing";
 import Menu from "./components/Menu/Menu";
 
