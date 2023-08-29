@@ -10,7 +10,12 @@ const port = 5000
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(express.static(path.resolve(__dirname, "../client/build")))
 
-app.get("/", (req:any, res:any) => {
+app.post("/", (req, res) => {
+    let city = req.body;
+    console.log(city);
+})
+
+app.get("/", (req, res) => {
     res.send("Hello World!")
 })
 
