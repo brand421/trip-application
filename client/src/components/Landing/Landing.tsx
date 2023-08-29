@@ -3,6 +3,9 @@ import { Input } from "@mui/base/Input";
 import "./landing.css";
 import { Button } from "@mui/base";
 import logo from "./TAlogo.png";
+import { SearchBox } from "@mapbox/search-js-react";
+import { types } from "util";
+import { AddressAutofill } from "@mapbox/search-js-react";
 
 export type Results = {
   attraction: string;
@@ -11,9 +14,6 @@ export type Results = {
 }[];
 
 function Landing() {
-  const [city, setCity] = useState("");
-  const [autoCompleteCity, setAutoCompleteCity] = useState<string[]>([]);
-  const [autoCompleteErr, setAutoCompleteErr] = useState("");
   // const [search, setSearch] = useState("");
 
   // const [card, setCard] = useState<Results | undefined>(undefined);
@@ -29,31 +29,6 @@ function Landing() {
   //   fetchData(search);
   // }, [search]);
 
-  const fetchPlace = async (text: string) => {
-    try {
-      const res = await fetch(
-        `https://api.mapbox.com/search/searchbox/v1/suggest?q=${text}&language=en&types=city&session_token=02983577-e734-4d88-818a-3dad28100538&access_token=${process.env.REACT_APP_MAPBOX_API}`
-      );
-      if (!res.ok) throw new Error(res.statusText);
-      return res.json();
-    } catch (err) {
-      return { error: "Unable to retrieve places" };
-    }
-  };
-
-  const handleCityChange = async (e: any | undefined) => {
-    setCity(e.target.value);
-    if (!city) return;
-
-    const res = await fetchPlace(city);
-    !autoCompleteCity.includes(e.target.value) &&
-      res.features &&
-      setAutoCompleteCity(
-        res.features.map((place: any | undefined) => place.place_name)
-      );
-    res.error ? setAutoCompleteErr(res.error) : setAutoCompleteErr("");
-  };
-
   return (
     <div className="landing__container">
       <h1 className="header">Where do you want to go?</h1>
@@ -61,20 +36,12 @@ function Landing() {
         Powered by <img className="logo" src={logo} alt="tripadvisor logo" />
       </h4>
       <form className="landing__form">
-        <Input
-          className="landing__input"
-          id="city"
-          type="text"
-          onChange={handleCityChange}
-          value={city}
-          required
-          placeholder="Enter your destination"
-        />
-        <datalist id="places">
-          {autoCompleteCity.map((city, i) => (
-            <option key={i}>{city}</option>
-          ))}
-        </datalist>
+        <SearchBox
+          value=""
+          accessToken={process.env.REACT_APP_MAPBOX_API!}
+          options={{ types: "city" }}
+          placeholder="Enter your destination city"
+        ></SearchBox>
         <Button type="submit" className="landing__submit">
           Submit
         </Button>
