@@ -8,7 +8,6 @@ function App() {
   return (
     <div className="App">
       <Menu />
-      {/* @ts-expect-error */}
       <Landing />
       {/* <Card /> */}
     </div>
