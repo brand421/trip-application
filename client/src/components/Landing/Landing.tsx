@@ -3,39 +3,43 @@ import "./landing.css";
 import { Button } from "@mui/base";
 import logo from "./TAlogo.png";
 import { SessionToken } from "@mapbox/search-js-core";
+import { SearchBox } from "@mapbox/search-js-react";
 
 function Landing() {
-  const [input, setInput] = useState("");
-  const [cityList, setCityList] = useState([
-    {
-      name: "",
-      place_formatted: "",
-    },
-  ]);
+  // const [search, setSearch] = useState("");
+  const [cityList, setCityList] = useState<[]>([]);
 
-  const sessionToken = new SessionToken();
-
-  useEffect(() => {
+  const handleChange = (e: any) => {
+    const search = e.target.value;
+    const sessionToken = new SessionToken();
     fetch(
-      `https://api.mapbox.com/search/searchbox/v1/suggest?q=${input}&language=en&types=locality,city&session_token=${sessionToken}&access_token=${process.env.REACT_APP_MAPBOX_API}`
+      `https://api.mapbox.com/search/searchbox/v1/suggest?q=${search}&language=en&types=locality,city&session_token=${sessionToken}&access_token=${mapboxToken}`
     )
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setCityList(data);
-      });
+        console.log(cityList);
+      })
       .catch((err) => {
-        console.log(err.message)
+        console.log(err.message);
       });
-  }), [];
-
-  const handleChange = (e: any) => {
-    setInput(e.target.value);
   };
 
-  // const cityList: any = (search: string) => {
-  //   let results = `https://api.mapbox.com/search/searchbox/v1/suggest?q=${search}&access_token=${process.env.REACT_APP_MAPBOX_API}&session_token=0c1ad424-ebbc-4b8d-9b1b-f3312c1fbf10&language=en&limit=5&types=locality%2Cplace`;
-  // };
+  const mapboxToken = process.env.REACT_APP_MAPBOX_API;
+  // useEffect(() => {
+  // const sessionToken = new SessionToken();
+  //   fetch(
+  //     `https://api.mapbox.com/search/searchbox/v1/suggest?q=${search}&language=en&types=locality,city&session_token=${sessionToken}&access_token=${mapboxToken}`
+  //   )
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       setCityList(data);
+  //       console.log(cityList);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err.message);
+  //     });
+  // }, [search]);
 
   return (
     <div className="landing__container">
@@ -43,12 +47,7 @@ function Landing() {
       <h4>
         Powered by <img className="logo" src={logo} alt="tripadvisor logo" />
       </h4>
-      <form
-        className="landing__form"
-        action="/"
-        method="POST"
-        // onSubmit={onSubmit}
-      >
+      <form className="landing__form" action="/" method="POST">
         <input id="city" onChange={handleChange} />
         <Button type="submit" className="landing__submit">
           Submit
@@ -56,9 +55,15 @@ function Landing() {
       </form>
       <div className="results__container">
         <div className="results__list">
-          <div className="result__header">{cityList.map((x) => x.name)}</div>
-          <div className="result__subheader">
-            {cityList.map((x) => x.place_formatted)}
+          <div className="result__header">
+            {/* <ul>
+              {cityList.map((x, index) => (
+                <li key={index}>
+                  <span>{x.name}</span>
+                  <span>{cityList.map((x) => x.place_formatted)}</span>
+                </li>
+              ))}
+            </ul> */}
           </div>
         </div>
       </div>

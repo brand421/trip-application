@@ -35,3 +35,8 @@ input {
 .landing__submit {
     margin-left: 2.5%;
 }
+
+.results__list, .result__header {
+    width: auto;
+    height: 200px;
+}
