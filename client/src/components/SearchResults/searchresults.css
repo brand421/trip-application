@@ -16,11 +16,21 @@
 .cities__list {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items:center;
     justify-content: center;
 }
 
 .city__list {
     display: flex;
-    /* flex-direction: column; */
+    flex-direction: column;
+    height: auto;
+    align-content: space-around;
+}
+
+.city__name {
+    margin-bottom: 0;
+}
+
+.country__name {
+    margin-top: 0;
 }
