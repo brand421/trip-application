@@ -1,0 +1,26 @@
+.header {
+    margin-bottom: 0;
+    font-family: --var-header-font;
+    font-weight: 1500;
+    font-style: italic;
+}
+
+.search__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 8%;
+}
+
+.cities__list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.city__list {
+    display: flex;
+    /* flex-direction: column; */
+}

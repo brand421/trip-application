@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import "./landing.css";
 import { Button } from "@mui/base";
 import logo from "./TAlogo.png";
 import axios from "axios";
+import { motion } from "framer-motion";
 import { SessionToken } from "@mapbox/search-js-core";
 import { SearchBox } from "@mapbox/search-js-react";
 
 function Landing() {
+  const navigate = useNavigate();
   const [search, setSearch] = useState({
     city: "",
   });
@@ -47,10 +50,19 @@ function Landing() {
   function handleSubmit(e: any) {
     e.preventDefault();
     console.log(search);
-    axios
-      .post("http://localhost:5000/", { city: search })
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
+    if (search.city === "") {
+      navigate("/error");
+    } else {
+      axios
+        .post("http://localhost:5000/", { city: search })
+        .then((res) => {
+          console.log(res);
+        })
+        .catch((err) => {
+          console.log(err);
+          navigate("/searchresults");
+        });
+    }
   }
 
   const handleChange = (e: any) => {
@@ -58,8 +70,8 @@ function Landing() {
   };
 
   return (
-    <div className="landing__container">
-      <h1 className="header">Where do you want to go?</h1>
+    <motion.div className="landing__container">
+      <h1 className="header">Where Are You Headed?</h1>
       <h4>
         Powered by <img className="logo" src={logo} alt="tripadvisor logo" />
       </h4>
@@ -70,6 +82,7 @@ function Landing() {
           name="city"
           value={search.city}
           onChange={handleChange}
+          className="landing__input"
         />
         <Button type="submit" className="landing__submit">
           Submit
@@ -89,7 +102,7 @@ function Landing() {
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
