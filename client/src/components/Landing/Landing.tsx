@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import "./landing.css";
 import { Button } from "@mui/base";
 import logo from "./TAlogo.png";
 import axios from "axios";
 import { motion } from "framer-motion";
+import { SessionToken } from "@mapbox/search-js-core";
 
 function Landing() {
   const navigate = useNavigate();
@@ -29,7 +30,7 @@ function Landing() {
   //     });
   // };
 
-  // const mapboxToken = process.env.REACT_APP_MAPBOX_API;
+  //
   // useEffect(() => {
   // const sessionToken = new SessionToken();
   //   fetch(
@@ -65,12 +66,17 @@ function Landing() {
   };
 
   function handleSubmit(e: any) {
+    const mapboxToken = process.env.REACT_APP_MAPBOX_API;
+    const sessionToken = new SessionToken();
     e.preventDefault();
     console.log(search);
     axios
-      .post("http://localhost:5000/", { city: search })
+      .get(
+        `https://api.mapbox.com/search/searchbox/v1/suggest?q=${search}&language=en&types=locality,city&limit=5&session_token=${sessionToken}&access_token=${mapboxToken}`
+      )
       .then((res) => {
         console.log(res);
+        navigate("/searchresults");
       })
       .catch((err) => {
         console.log(err);
