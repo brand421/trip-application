@@ -2,21 +2,22 @@ import React from "react";
 import "./App.css";
 // import Card from "./components/Card/Card";
 import Landing from "./components/Landing/Landing";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import Menu from "./components/Menu/Menu";
 import SearchResults from "./components/SearchResults/SearchResults";
+import { AnimatePresence } from "framer-motion";
 
 function App() {
+  const location = useLocation();
   return (
     <div className="App">
-      <BrowserRouter>
-        <Menu />
-        <Routes>
+      <Menu />
+      <AnimatePresence mode="wait">
+        <Routes location={location} key={location.pathname}>
           <Route path="/" element={<Landing />} />
           <Route path="/searchresults" element={<SearchResults />} />
         </Routes>
-      </BrowserRouter>
-
+      </AnimatePresence>
       {/* <Card /> */}
     </div>
   );

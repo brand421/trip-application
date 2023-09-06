@@ -13,8 +13,14 @@
     align-items: start;
 }
 
+.menu__link {
+    text-decoration: none;
+    color: black;
+}
+
 .menu__title {
     width: 100%;
+    
 }
 
 .menu__submenu {

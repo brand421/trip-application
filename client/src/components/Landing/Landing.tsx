@@ -5,8 +5,6 @@ import { Button } from "@mui/base";
 import logo from "./TAlogo.png";
 import axios from "axios";
 import { motion } from "framer-motion";
-import { SessionToken } from "@mapbox/search-js-core";
-import { SearchBox } from "@mapbox/search-js-react";
 
 function Landing() {
   const navigate = useNavigate();
@@ -47,22 +45,37 @@ function Landing() {
   //     });
   // }, [search]);
 
+  const container = {
+    hidden: { opacity: 0, x: "-100px" },
+    show: {
+      opacity: 1,
+      x: "0px",
+      transition: {
+        staggerChildren: 0.5,
+      },
+    },
+  };
+
+  const item = {
+    hidden: { opacity: 0, x: "50px" },
+    show: {
+      opacity: 1,
+      x: "0px",
+    },
+  };
+
   function handleSubmit(e: any) {
     e.preventDefault();
     console.log(search);
-    if (search.city === "") {
-      navigate("/error");
-    } else {
-      axios
-        .post("http://localhost:5000/", { city: search })
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((err) => {
-          console.log(err);
-          navigate("/searchresults");
-        });
-    }
+    axios
+      .post("http://localhost:5000/", { city: search })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+        navigate("/searchresults");
+      });
   }
 
   const handleChange = (e: any) => {
@@ -70,38 +83,35 @@ function Landing() {
   };
 
   return (
-    <motion.div className="landing__container">
-      <h1 className="header">Where Are You Headed?</h1>
-      <h4>
-        Powered by <img className="logo" src={logo} alt="tripadvisor logo" />
-      </h4>
-      <form className="landing__form" onSubmit={handleSubmit}>
-        <input
-          type="text"
-          id="city"
-          name="city"
-          value={search.city}
-          onChange={handleChange}
-          className="landing__input"
-        />
-        <Button type="submit" className="landing__submit">
-          Submit
-        </Button>
-      </form>
-      <div className="results__container">
-        <div className="results__list">
-          <div className="result__header">
-            {/* <ul>
-              {cityList.map((x, index) => (
-                <li key={index}>
-                  <span>{x.name}</span>
-                  <span>{cityList.map((x) => x.place_formatted)}</span>
-                </li>
-              ))}
-            </ul> */}
-          </div>
-        </div>
-      </div>
+    <motion.div
+      variants={container}
+      initial="hidden"
+      animate="show"
+      exit={{ opacity: 0, x: "100px" }}
+      className="landing__container"
+    >
+      <motion.div variants={item} initial="hidden" animate="show" exit="hidden">
+        <h1 className="header">Where Are You Headed?</h1>
+        <h4>
+          Powered by <img className="logo" src={logo} alt="tripadvisor logo" />
+        </h4>
+      </motion.div>
+      <motion.div variants={item} initial="hidden" animate="show" exit="hidden">
+        <form className="landing__form" onSubmit={handleSubmit}>
+          <input
+            type="text"
+            id="city"
+            name="city"
+            value={search.city}
+            onChange={handleChange}
+            className="landing__input"
+            required
+          />
+          <Button type="submit" className="landing__submit">
+            Submit
+          </Button>
+        </form>
+      </motion.div>
     </motion.div>
   );
 }
