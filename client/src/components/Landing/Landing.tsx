@@ -65,24 +65,33 @@ function Landing() {
     },
   };
 
-  function handleSubmit(e: any) {
-    const mapboxToken = process.env.REACT_APP_MAPBOX_API;
-    const sessionToken = new SessionToken();
-    e.preventDefault();
-    console.log(search);
-    axios
-      .get(
-        `https://api.mapbox.com/search/searchbox/v1/suggest?q=${search}&language=en&types=locality,city&limit=5&session_token=${sessionToken}&access_token=${mapboxToken}`
-      )
-      .then((res) => {
-        console.log(res);
-        navigate("/searchresults");
-      })
-      .catch((err) => {
-        console.log(err);
-        navigate("/searchresults");
-      });
+  function handleSubmit(e: string) {
+    const serialBody = JSON.stringify(search);
+    const fetchOptions = {
+      method: "POST",
+      body: serialBody,
+    };
+    fetch("/searchresults", fetchOptions);
   }
+
+  // function handleSubmit(e: any) {
+  //   const mapboxToken = process.env.REACT_APP_MAPBOX_API;
+  //   const sessionToken = new SessionToken();
+  //   e.preventDefault();
+  //   console.log(search);
+  //   axios
+  //     .post(
+  //       `https://api.mapbox.com/search/searchbox/v1/suggest?q=${search}&language=en&types=locality,city&limit=5&session_token=${sessionToken}&access_token=${mapboxToken}`
+  //     )
+  //     .then((res) => {
+  //       console.log(res);
+  //       navigate("/searchresults");
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //       navigate("/searchresults");
+  //     });
+  // }
 
   const handleChange = (e: any) => {
     setSearch(e.target.value);
