@@ -9,7 +9,7 @@ function SearchResults() {
       opacity: 1,
       y: "0px",
       transition: {
-        staggerChildren: 0.13,
+        staggerChildren: 0.25,
       },
     },
   };
@@ -48,8 +48,10 @@ function SearchResults() {
       >
         {cities.map((x, key) => (
           <motion.div variants={item} key={key} className="city__list">
-            <h3 className="city__name">{x.city}</h3>
-            <p className="country__name">{x.country}</p>
+            <a>
+              <h3 className="city__name">{x.city}</h3>
+              <p className="country__name">{x.country}</p>
+            </a>
           </motion.div>
         ))}
       </motion.div>
