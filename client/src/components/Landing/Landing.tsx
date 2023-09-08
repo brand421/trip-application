@@ -65,14 +65,18 @@ function Landing() {
     },
   };
 
-  function handleSubmit(e: string) {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     const serialBody = JSON.stringify(search);
     const fetchOptions = {
       method: "POST",
       body: serialBody,
     };
-    fetch("/searchresults", fetchOptions);
-  }
+    fetch("/searchresults", fetchOptions).then((res) => {
+      navigate("/searchresults");
+      console.log(res);
+    });
+  };
 
   // function handleSubmit(e: any) {
   //   const mapboxToken = process.env.REACT_APP_MAPBOX_API;
