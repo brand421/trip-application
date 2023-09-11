@@ -9,42 +9,7 @@ import { SessionToken } from "@mapbox/search-js-core";
 
 function Landing() {
   const navigate = useNavigate();
-  const [search, setSearch] = useState({
-    city: "",
-  });
-  // const [cityList, setCityList] = useState<[]>([]);
-
-  // const handleChange = (e: any) => {
-  //   const search = e.target.value;
-  //   const sessionToken = new SessionToken();
-  //   fetch(
-  //     `https://api.mapbox.com/search/searchbox/v1/suggest?q=${search}&language=en&types=locality,city&session_token=${sessionToken}&access_token=${mapboxToken}`
-  //   )
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       setCityList(data);
-  //       console.log(cityList);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err.message);
-  //     });
-  // };
-
-  //
-  // useEffect(() => {
-  // const sessionToken = new SessionToken();
-  //   fetch(
-  //     `https://api.mapbox.com/search/searchbox/v1/suggest?q=${search}&language=en&types=locality,city&session_token=${sessionToken}&access_token=${mapboxToken}`
-  //   )
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       setCityList(data);
-  //       console.log(cityList);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err.message);
-  //     });
-  // }, [search]);
+  const [search, setSearch] = useState("");
 
   const container = {
     hidden: { opacity: 0, x: "-100px" },
@@ -80,14 +45,16 @@ function Landing() {
   //   );
   // };
 
-  function handleSubmit(e: any) {
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     const mapboxToken = process.env.REACT_APP_MAPBOX_API;
     const sessionToken = new SessionToken();
     e.preventDefault();
-    console.log(search);
+    const regex: RegExp = / /i;
+    let cityReplace = search.replace(regex, "+");
+    console.log(cityReplace);
     axios
       .post(
-        `https://api.mapbox.com/search/searchbox/v1/suggest?q=${search}&language=en&types=locality,city&limit=5&session_token=${sessionToken}&access_token=${mapboxToken}`
+        `https://api.mapbox.com/search/searchbox/v1/suggest?q=${cityReplace}&language=en&limit=5&types=city,locality&session_token=${sessionToken}&access_token=${mapboxToken}`
       )
       .then((res) => {
         console.log(res);
@@ -99,11 +66,9 @@ function Landing() {
       });
   }
 
-  const handleChange = (e: any) => {
-    let city = e.target.value;
-    const regex: RegExp = / /i;
-    let cityReplace = city.replace(regex, "+");
-    setSearch(cityReplace);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let search = e.currentTarget.value;
+    setSearch(search);
   };
 
   return (
@@ -126,7 +91,7 @@ function Landing() {
             type="text"
             id="city"
             name="city"
-            value={search.city}
+            value={search}
             onChange={handleChange}
             className="landing__input"
             required
