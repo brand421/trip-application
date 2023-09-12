@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import "./searchresults.css";
 
@@ -21,6 +21,12 @@ function SearchResults() {
       y: "0px",
     },
   };
+
+  const [cityList, setCityList] = useState<{
+    city: string;
+    place_formatted: string;
+  }>({ city: "", place_formatted: "" });
+
   const cities = [
     {
       city: "Stockholm",
@@ -48,7 +54,7 @@ function SearchResults() {
       >
         {cities.map((x, key) => (
           <motion.div variants={item} key={key} className="city__list">
-            <a>
+            <a href="#">
               <h3 className="city__name">{x.city}</h3>
               <p className="country__name">{x.country}</p>
             </a>

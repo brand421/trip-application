@@ -12,10 +12,16 @@ const mongoose = require("mongoose")
 const uuid = uuidv4();
 const mapboxToken = process.env.MAPBOX_API!;
 
+const uri = process.env.MONGO
+
 app.use(bodyParser.urlencoded({extended: true}))
 app.use(express.static(path.resolve(__dirname, "../client/build")))
 app.use(express.json())
 app.use(cors())
+
+// setTimeout(function() {
+//     mongoose.connect(uri);
+// }, 5000)
 
 const searchSchema = new mongoose.Schema({city: String})
 
@@ -23,7 +29,9 @@ const Search = mongoose.model('Search', searchSchema)
 
 app.post("/", (req: Request, res: Response) => {
     let cityName = req.body.city;
-    const cityResults = new Search({city: cityName})
+    let regex = / /i;
+    let cityReplace = cityName.replace(regex, "+")
+    const cityResults = new Search({city: cityReplace})
     console.log(cityResults);
     res.send(cityResults);
 })
