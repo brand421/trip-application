@@ -9,7 +9,7 @@ import { SessionToken } from "@mapbox/search-js-core";
 
 function Landing() {
   const navigate = useNavigate();
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState<{ city: string }>({ city: "" });
 
   const container = {
     hidden: { opacity: 0, x: "-100px" },
@@ -30,45 +30,23 @@ function Landing() {
     },
   };
 
-  // const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
-  //   const serialBody = JSON.stringify(search);
-  //   const fetchOptions = {
-  //     method: "POST",
-  //     body: serialBody,
-  //   };
-  //   fetch("http://www.localhost:5000/searchresults", fetchOptions).then(
-  //     (res) => {
-  //       console.log(res);
-  //       navigate("/searchresults");
-  //     }
-  //   );
-  // };
-
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    const mapboxToken = process.env.REACT_APP_MAPBOX_API;
-    const sessionToken = new SessionToken();
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const regex: RegExp = / /i;
-    let cityReplace = search.replace(regex, "+");
-    console.log(cityReplace);
-    axios
-      .post(
-        `https://api.mapbox.com/search/searchbox/v1/suggest?q=${cityReplace}&language=en&limit=5&types=city,locality&session_token=${sessionToken}&access_token=${mapboxToken}`
-      )
-      .then((res) => {
-        console.log(res);
-        navigate("/searchresults");
-      })
-      .catch((err) => {
-        console.log(err);
-        navigate("/searchresults");
-      });
-  }
+    const serialBody = JSON.stringify(search);
+    const fetchOptions = {
+      method: "POST",
+      body: serialBody,
+    };
+    fetch("http://www.localhost:5000/", fetchOptions).then((res) => {
+      console.log(res);
+      navigate("/searchresults");
+      return res.json();
+    });
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let search = e.currentTarget.value;
-    setSearch(search);
+    setSearch({ city: search });
   };
 
   return (
@@ -91,7 +69,7 @@ function Landing() {
             type="text"
             id="city"
             name="city"
-            value={search}
+            value={search.city}
             onChange={handleChange}
             className="landing__input"
             required
