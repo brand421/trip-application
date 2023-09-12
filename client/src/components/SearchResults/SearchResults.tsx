@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import "./searchresults.css";
 
@@ -22,11 +22,20 @@ function SearchResults() {
     },
   };
 
-  const [cityList, setCityList] = useState<{
-    city: string;
-    place_formatted: string;
-  }>({ city: "", place_formatted: "" });
+  const [cityList, setCityList] = useState<
+    [
+      {
+        city: string;
+        place_formatted: string;
+      }
+    ]
+  >([{ city: "", place_formatted: "" }]);
 
+  useEffect(() => {
+    fetch("http://localhost:5000/searchresults")
+      .then((res) => res.json())
+      .then((data) => setCityList(data));
+  });
   const cities = [
     {
       city: "Stockholm",
@@ -52,11 +61,11 @@ function SearchResults() {
         animate="show"
         className="cities__list"
       >
-        {cities.map((x, key) => (
+        {cityList.map((x, key) => (
           <motion.div variants={item} key={key} className="city__list">
             <a href="#">
               <h3 className="city__name">{x.city}</h3>
-              <p className="country__name">{x.country}</p>
+              <p className="country__name">{x.place_formatted}</p>
             </a>
           </motion.div>
         ))}

@@ -32,14 +32,27 @@ app.post("/", (req: Request, res: Response) => {
     let regex = / /i;
     let cityReplace = cityName.replace(regex, "+")
     const cityResults = new Search({city: cityReplace})
-    console.log(cityResults);
+    // console.log(cityResults);
     res.send(cityResults);
 })
 
-app.get("/", (req: Request, res: Response) => {
-    const cityName = req.body.city;
-    axios.get(`https://api.mapbox.com/search/searchbox/v1/suggest?q=${cityName}&language=en&limit=5&types=city,locality&session_token=${uuid}&access_token=${mapboxToken}`)
-    console.log(cityName);
+app.get("/searchresults", (req: Request, res: Response) => {
+    let cityName = Search.find()
+    const cityList: string[] = [];
+    axios.get(`https://api.mapbox.com/search/searchbox/v1/suggest?q=grand+rapids&language=en&limit=5&types=city,locality&session_token=${uuid}&access_token=${mapboxToken}`).then((response: {suggestions: []}) => {
+        for (let i = 0; i < response.suggestions.length; i++) {
+            cityList.push(response.suggestions[i])
+        }
+        return cityList;
+    }).then((data: { body: { [x: string]: any; }; }) => {
+        var name = data.body["name"];
+        var place = data.body["place_formatted"]
+        res.json({
+        city: name,
+        place_formatted: place
+    });
+    })
+    
 })
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
