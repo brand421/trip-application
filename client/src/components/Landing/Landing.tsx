@@ -32,15 +32,9 @@ function Landing() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const serialBody = JSON.stringify(search);
-    const fetchOptions = {
-      method: "POST",
-      body: serialBody,
-    };
-    fetch("http://www.localhost:5000/", fetchOptions).then((res) => {
+    axios.post("http://localhost:5000/", search).then((res) => {
       console.log(res);
       navigate("/searchresults");
-      return res.json();
     });
   };
 
