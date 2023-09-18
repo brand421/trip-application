@@ -131,11 +131,11 @@ function Landing() {
           </form>
         </motion.div>
       </motion.div>
-      <div>
+      <>
         {submit ? (
           <div className="search__container">
             <div>
-              <h1 className="header">Which City Did You Want?</h1>
+              <h1 className="sub__header">Which City Did You Want?</h1>
             </div>
             <div className="city__block">
               <motion.div
@@ -152,7 +152,13 @@ function Landing() {
                   >
                     <a href="#">
                       <h3 className="city__name">{x.name}</h3>
-                      <p className="country__name">{x.place}</p>
+                      {x.place.length > 25 ? (
+                        <p className="place__name">
+                          {x.place.slice(0, 25) + "..."}
+                        </p>
+                      ) : (
+                        <p className="place__name">{x.place}</p>
+                      )}
                     </a>
                   </motion.div>
                 ))}
@@ -162,7 +168,7 @@ function Landing() {
         ) : (
           <></>
         )}
-      </div>
+      </>
     </>
   );
 }

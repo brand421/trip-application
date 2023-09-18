@@ -1,3 +1,8 @@
+a {
+    text-decoration: none;
+
+}
+
 input {
     box-shadow: 0px 0px 15px blue;
     width: 200px;
@@ -9,9 +14,10 @@ input {
 
 .header {
     margin-bottom: 0;
-    font-family: --var-header-font;
+    font-family: var(--var-header-font);
     font-weight: 1500;
     font-style: italic;
+    font-size: xx-large;
 }
 
 .landing__container {
@@ -40,7 +46,8 @@ input {
 }
 
 .landing__submit {
-    
+    background-color: white;
+    border-radius: 10px;
 }
 
 .results__list, .result__header {
@@ -50,43 +57,47 @@ input {
 
 .search__container {
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
+    flex-direction: column;
+    margin-top: 4%;
+}
+
+.sub__header {
+    font-family: var(--var-header-font);
+    font-weight: 1500;
+    font-size: x-large;
 }
 
 .cities__list {
-    display: flex;
+    display:flex;
     flex-direction: row;
-    align-items:center;
-    justify-content: center;
-    width: auto;
+    margin: 0 7%;
+    align-items: center;
+    justify-content: space-evenly;
+
 }
 
 .city__list {
     display: flex;
-    flex-direction: row;
     height: auto;
+    align-items: center;
+    justify-content: center;
+    width: 250px;
     border-radius: 5px;
     border: 3px inset green;
     box-shadow: 0px 0px 3px black;
-    width: 250%;
     margin-top: 25px;
     cursor: pointer;
-}
-
-.city__block {
-    display: flex;
-    flex-direction: row;
-    align-content: center;
-    justify-content: center;
-    width: 100%;
+    
 }
 
 .city__name {
     margin-bottom: 0;
+    font-family: var(--var-header-font);
 }
 
-.country__name {
+.place__name {
     margin-top: 0;
+    font-family: var(--var-header-font);
+    font-weight: 200;
+    font-style: normal;
 }
