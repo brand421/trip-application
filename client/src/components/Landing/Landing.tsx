@@ -144,10 +144,10 @@ function Landing() {
                 animate="show"
                 className="cities__list"
               >
-                {results.map((x, key) => (
+                {results.map((x) => (
                   <motion.div
                     variants={itemResults}
-                    key={key}
+                    key={x.name}
                     className="city__list"
                   >
                     <a href="#">
